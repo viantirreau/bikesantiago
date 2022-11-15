@@ -1,0 +1,239 @@
+id,name,address,lat,lon
+3,P01 - Andrés Bello / Gral. Holley,"General Holley 41, esquina sur oriente con A. Bello",-33.41935,-70.60962
+4,P02 - Italia / Marín,"Italia 980, esquina NO con Marín",-33.44393,-70.62565
+5,P03 - Suecia / El Vergel,"El Vergel 2316, esquina NO con Suecia",-33.43282,-70.60363
+6,P04 - Costanera Center 1,"Nueva Tobalaba 12, Vereda Poniente frente a Costanera Center",-33.41717,-70.6055
+7,P05 - Costanera Center 2,"Nueva Tobalaba 12, junto a ciclovía",-33.41705,-70.60497
+8,P06 - Duoc (Antonio Varas),Federico Froebel / Antonio Varas,-33.43347,-70.61503
+10,P08 - Metro Colón,"Tobalaba 1381, Vereda Poniente",-33.42651,-70.59106
+11,P09 - Metro Francisco Bilbao,"Tobalaba 1913, en sector norte de Parque Augusto Errázuriz",-33.43076,-70.58627
+12,P10 - Metro Manuel Montt,"Av. Providencia 1309, vereda Sur",-33.42867,-70.61984
+13,P11 - Metro Parque Bustamante,"Ramon Carnicer con Bilbao, esquina SO",-33.44304,-70.63198
+14,P12 - Puente Pedro de Valdivia,Francisco Noguera 217,-33.42236,-70.6145
+15,P13 - Metro Pedro de Valdivia,"Av. Providencia 1914, junto a salida sur de metro Pedro de Valdivia",-33.42547,-70.61352
+17,P15 - Manuel Montt / Andrés Bello,Manuel Montt 0192,-33.42761,-70.62222
+18,P16 - Metro Salvador,"Providencia 753, al costado de salida Poniente de metro Salvador",-33.43243,-70.62587
+19,P17 - Metro Santa Isabel,"Sta Isabel 53, en estacionamiento del costado Sur de la calle",-33.44725,-70.63092
+20,P18 - Metro Tobalaba,"Hernando de Aguirre 128, Vereda Oriente",-33.41858,-70.60134
+21,P19 - Municipalidad Providencia,"Marchant Pereira 880, vereda Oriente",-33.43269,-70.61135
+22,P20 - Nueva Los Leones,"Nueva Los Leones 5-7, vereda al norte de Calle Vitacura",-33.41971,-70.60618
+23,P21 - Patio Bellavista,"Constitución 27, costado Oriente de la calle",-33.43417,-70.63446
+24,P22 - Plaza Loreto Cousiño,Juan de Dios Vial 1250,-33.42838,-70.59484
+25,P23 - Metro Inés de Suarez,Plaza Pedro de Valdivia 1764,-33.43857,-70.60657
+26,P24 - Plaza Río De Janeiro,"Augusto Ovalle Castillo 1360, esquina con Pocuro, esquina NP, en la plaza",-33.43237,-70.59385
+27,P25 - Bilbao / Ricardo Lyon,Av. Francisco Bilbao 2223,-33.4377,-70.60375
+28,P26 - Mar del Plata / Ricardo Lyon,Mar del Plata 2171,-33.43243,-70.60604
+29,P27 - Ricardo Lyon / Lota,"Coyancura 2200, vereda Poniente cerca de esquina con Lyon",-33.424,-70.60891
+30,P28 - Ricardo Lyon / Pocuro,"Pocuro 2201, vereda Norte",-33.43533,-70.60463
+31,P29 - Santa Isabel /Ana Luisa Prats,"Ana Luisa Prats 1001, lado Norte",-33.44533,-70.61776
+32,P30 - Lo Contador,"Monseñor Carlos Casanueva 0335, vereda Poniente",-33.42019,-70.61815
+33,P32 - Valenzuela Castillo / Miguel Claro,Valenzuela Castillo / Miguel Claro,-33.43549,-70.61937
+36,P37 - Obispo Salas,Obispo Salas 359,-33.43744,-70.62798
+37,P44 - Andres Bello / Padre Mariano,Padre Mariano 391,-33.42352,-70.61862
+39,P49 - Fco Bilbao / Román Díaz,Román Díaz 1061,-33.43991,-70.61979
+40,P52 - Holanda / Pocuro,Holanda 1709,-33.43426,-70.59949
+41,P53 - Plaza Inés de Suarez,Regimiento Cazadores 1193,-33.43721,-70.61159
+42,P55 - Pérez Valenzuela,Pérez Valenzuela 1548,-33.4252,-70.61982
+43,S11 - Metro Toesca,General Las Heras 6,-33.45279,-70.65765
+44,S02 - Metro República,República 16,-33.44869,-70.66818
+45,S16 - Teatro Municipal,Tenderini 192,-33.44029,-70.64708
+46,S17 - San Isidro / Santa Isabel,San Isidro 479,-33.45018,-70.64306
+47,S14 - Santa Isabel / Carmen,Carmen 478,-33.44976,-70.64145
+48,S12 - Barrio Lastarria,José Victorino Lastarria 290,-33.43795,-70.64114
+49,S63 - Santa Isabel / Lira,Lira 484,-33.449,-70.639
+51,S23 - Portugal / Santa Victoria,Santa Victoria 299,-33.447,-70.635
+52,S29 - San Martin / General Mackenna,San Martín 895,-33.433,-70.659
+53,V07 - Bicentenario,Bicentenario 4140,-33.401,-70.602
+54,V34 - Mestizo,Isabel Montt 3330,-33.394,-70.6
+56,V35 - Municipalidad de Vitacura,Bicentenario 3160,-33.398,-70.601
+57,V10 - Casa Costanera,Juan Bautista Pastene 3109,-33.398,-70.598
+58,V37 - Naciones Unidas,Dag Hammarskjold 3060,-33.40706,-70.60118
+59,S06 - Matta / San Diego,Av. Matta 1080,-33.45953,-70.64893
+60,S09 - Santo Domingo / Morandé,Morandé 598,-33.43662,-70.65418
+62,S27 - Teatinos / Huérfanos,Teatinos 331,-33.43979,-70.65515
+63,S19 - Palacio de La Moneda,Moneda 1301,-33.44227,-70.65479
+65,S20 - Metro Santa Lucía,Miraflores 50,-33.4421,-70.64436
+67,S01 - Agustinas / Manuel Rodríguez Norte,Agustinas 1116,-33.44174,-70.65941
+68,S04 - Av. Portugal / Porvenir,Porvenir 302,-33.45518,-70.63336
+73,S03 - Teatinos / General Mackenna,Teatinos 899,-33.43326,-70.6559
+75,S10 - Estación Mapocho,Bandera 308,-33.43267,-70.65352
+77,S25 - Plaza de Armas,Monjitas 874,-33.43712,-70.64951
+78,S15 - Serrano / Tarapacá,Serrano 201,-33.44722,-70.64884
+79,S05 - Metro Bellas Artes,Mosqueto 520,-33.43645,-70.64441
+81,S18 - Metro Santa Ana,Catedral 1575,-33.43813,-70.65916
+82,S21 - Metro Quinta Normal,Matucana 466,-33.44054,-70.68001
+84,S07 - Metro Los Héroes,Ejército Libertador 38,-33.4477,-70.66129
+85,S64 - República / Gorbea,República 430,-33.45355,-70.66721
+92,S30 - San Pablo,San Pablo 1350,-33.4344,-70.65666
+98,I01 - Metro Hospitales,Av. Independencia 1084,-33.41786,-70.65614
+100,I04 - Molino,Vivaceta 1052,-33.41845,-70.66366
+102,I06 - Mall Independencia,Independencia 565,-33.42488,-70.6547
+103,V40 - Paul Claudel,Paul Claudel 1501,-33.40511,-70.59719
+105,V02 - Alonso de Cordova,Vitacura 3732,-33.402,-70.59432
+109,V43 - Plaza Lo Castillo,Candelaria Goyenechea 3821,-33.40038,-70.59275
+110,V06 - Vespucio / Vitacura,Av Vitacura 4325,-33.39909,-70.58824
+112,V05 - Americo Vespucio / Las Hualtatas,Américo Vespucio 1165,-33.40398,-70.58616
+118,V30 - Los Laureles,Los Laureles 1610,-33.40311,-70.58985
+157,V29 - Los Cobres,Vitacura 6980,-33.38841,-70.56776
+165,S36 - Fantasilandia,Tupper 2098,-33.45867,-70.66369
+167,S39 - Metro Parque Almagro,Lord Cochrane 499,-33.45133,-70.6506
+168,S46 - Metro ULA,Libertador Bernardo O'Higgins 2825,-33.44922,-70.67254
+190,N10 - Metro Plaza Egaña,Plaza Egaña 68,-33.45261,-70.57101
+191,N05 - Irarrazaval / Hamburgo,Hamburgo 110,-33.45391,-70.57602
+200,N01 - Irarrazaval / Agustin Vigorena,Agustín Vigorena 108,-33.45539,-70.58643
+201,N12 - Plaza Nunoa,"Manuel de Salas 70, esquina nororiente de la Plaza Ñuñoa, Junto a municipalidad",-33.45457,-70.59325
+202,N07 - Jose Luis Araneda / Capitan Orella,José Luis Araneda 205,-33.45252,-70.6014
+203,N13 - Ricardo Lyon / Hernan Cortes,Ricardo Lyon 2801,-33.44673,-70.60251
+210,N11 - Metro Simon Bolivar,Av. Ossa 750,-33.44624,-70.57212
+211,N06 - Metro Nunoa,Irarrázaval 2470,-33.45395,-70.60567
+212,N09 - Metro Irarrazaval,"San Eugenio 61, en Isla entre San Eugenio y Bustamante, llegando a Irarrázaval desde el sur.",-33.45285,-70.62822
+213,N08 - Manuel Montt / Union Literaria,Manuel Montt 2219,-33.448,-70.61342
+214,N04 - Hospital Carabineros,Antonio Varas 2541,-33.45057,-70.60982
+215,N03 - Club Nunoa,Simón Bolívar 4503,-33.44852,-70.58293
+232,SJ06 - Metro Camino Agricola,Vicuña Mackenna 5939,-33.49152,-70.61784
+235,SJ04 - Metro Rodrigo de Araya,Vicuña Mackenna 2935,-33.47828,-70.62224
+237,P31 - Estación Canal 13,Alcalde Dávalos 124,-33.42833,-70.62731
+238,N14 - Plaza Augusto D'Halmar,Hamburgo 1875,-33.43777,-70.57802
+267,V39 - Pedro Canisio,Kennedy Lateral 5336,-33.40023,-70.5779
+269,P36 - Carlos Antúnez / Barros Errázuriz,Carlos Antúnez 1831,-33.4274,-70.61389
+281,P46 - Román Díaz,Roman Diaz 357,-33.43368,-70.62082
+282,P34 - Punta Arenas,Punta Arenas 19,-33.43271,-70.63012
+285,S08 - Marcoleta / San Isidro,Marcoleta 564,-33.44378,-70.64443
+286,N02 - Jose Pedro Alessandri / Irarrazabal,José Pedro Alessandri 1,-33.455,-70.59832
+287,S13 - Universidad Católica,Carabineros de Chile 288,-33.44066,-70.63956
+288,S044 - Plaza Manuel Rodríguez,Abdon Cifuentes 259,-33.45153,-70.66563
+290,P39 - Seminario,8 Seminario,-33.43668,-70.63078
+291,P38 - Québec,Quebec 575,-33.43613,-70.62588
+292,P48 - Parque de las Esculturas Poniente,Av Santa Maria / Pedro de Valdivia Nte,-33.42088,-70.61499
+293,P43 - Los Españoles,Mons Carlos Casanueva / Sta Maria,-33.42124,-70.61692
+294,P47 - Ibis Providencia,Av Providencia 1275,-33.42942,-70.62126
+295,P50 - Las Esculturas Oriente,Padre Letelier / Av Santa María,-33.41924,-70.61181
+296,P56 - Ambasciata,Clemente Fabres 1099,-33.44172,-70.618
+297,S24 - Parque de los Reyes,Pdte Balmaceda 2200,-33.42922,-70.66931
+298,P59 - Los Estanques,Los Estanques 1995,-33.43514,-70.60871
+299,P42 - Lota / Tobalaba,Lota 2864,-33.42164,-70.59732
+300,S32 - Gorbea,Gorbea 1727,-33.45174,-70.65962
+301,S37 - FAU,Marcoleta 260,-33.44162,-70.63841
+302,S40 - Erasmo Escala,Erasmo Escala 2402,-33.44523,-70.66804
+303,S41 - Fanor Velasco,Fanor Velasco 8,-33.44539,-70.65931
+304,S42 - Av. Brasil,Av Brasil 799,-33.4349,-70.66492
+305,S43 - Blas Cañas,Blas Cañas 476,-33.44508,-70.64251
+307,S45 - Cueto,Cueto 1098,-33.43255,-70.67319
+308,S47 - Marín / Carmen,Marín 499,-33.44746,-70.64206
+309,S48 - Angamos,Angamos 299,-33.44663,-70.63861
+310,S50 - Gral. Jofré,Gral. Jofré 306,-33.44523,-70.63678
+311,S52 - Argomedo,Argomedo 11,-33.44889,-70.6322
+312,S54 - Plaza Ercilla,Ejército Libertador esquina Blanco Encalda,-33.45676,-70.65988
+313,P40 - Bustamante,Gral Bustamante 302,-33.44518,-70.63106
+314,P58 - Unidad Vecinal Providencia,Antonio Varas 169,-33.42911,-70.61696
+317,N15 - Dublé Almeyda,Fernández Concha 72,-33.4538,-70.62174
+318,P07 - Eduardo de La Barra,Eduardo de La Barra 1482,-33.44532,-70.61199
+319,P35 - José Manuel Cousiño,José Manuel Cousiño 2099,-33.43521,-70.59106
+320,P57 - Galvarino Gallardo,Galvarino Gallardo 2187,-33.42877,-70.60726
+321,P60 - Suecia / Carmen Sylva,Suecia 513,-33.4255,-70.6063
+322,P54 - Seminario / Rancagua,Seminario 93,-33.44074,-70.63002
+323,S33 - Zenteno,Zenteno 772,-33.45521,-70.65106
+324,S31- Raulí,Rauli 600,-33.44971,-70.63618
+325,S38 - Vicaría,Erasmo Escala 1822,-33.44432,-70.66204
+326,S35 - José Miguel Carrera,Almirante Hurtado 2022,-33.45429,-70.66289
+327,P33 - Isidorita,Isidorita 143,-33.42215,-70.6074
+328,S22 - Coquimbo/Carmen,499 Coquimbo,-33.45498,-70.63989
+329,LC001 - Barrio El Golf,Avenida El Golf 180,-33.4138,-70.59254
+330,LC002 - Hendaya,Hendaya 27,-33.41634,-70.59273
+331,LC003 - Ómnium,5000 Avenida Apoquindo,-33.4115,-70.57697
+332,LC004 - Plaza Valenzuela Llanos,84 Las Tranqueras,-33.40081,-70.55517
+333,LC005 - Corporación Cultural De Las Condes,Apoquindo 6510,-33.40705,-70.56152
+334,LC006 - Parque Titanium,2730 Avenida Costanera Sur,-33.41364,-70.60578
+335,LC007 - Centro Cívico De Las Condes,3320 Reyes Lavalle,-33.41554,-70.59569
+336,LC008 - San Crescente,78 San Crescente,-33.41728,-70.59541
+337,LC009 - Municipalidad De Las Condes,5000 Avenida Presidente Riesco,-33.40549,-70.57917
+338,LC010 - Metro Manquehue - Norte,Av. Apoquindo 6140,-33.40852,-70.56696
+339,LC011 - Metro Hernando De Magallanes,Pehuen 7100,-33.40833,-70.55652
+340,LC012 - Metro Los Dominicos,Apoquindo 8379,-33.40797,-70.54575
+341,LC013 - Rotonda Atenas,7550 Avenida Cristóbal Colón,-33.41797,-70.55255
+342,LC014 - Parque Araucano,Av Presidente Riesco 5689,-33.40373,-70.57343
+343,LC015 - Isidora Goyenechea / El Bosque Norte,Isidora Goyenechea 2887,-33.41403,-70.60233
+344,LC016 - Plaza Juan Pablo II,Isabel La Católica 4300,-33.42734,-70.57879
+345,LC017 - Sánchez Fontecilla / Cristóbal Colón,Mariano Sánchez Fontecilla 1070,-33.42618,-70.5906
+346,LC018 - Fiscalía Local De Las Condes,Los Militares 5620,-33.40663,-70.57264
+347,LC019 - Metro Alcántara,Alcántara 79,-33.41582,-70.58956
+348,LC020 - Manquehue Sur / Cristóbal Colón,Av Manquehue Sur 1022,-33.41695,-70.56465
+349,LC021 - Parque Juan Pablo II,Av Presidente Riesco 6161,-33.40189,-70.56911
+350,LC022 - Tobalaba / Apoquindo,Av. Tobalaba 32,-33.41827,-70.60119
+351,LC023 - Plaza Don Raúl Simón Bernal,Av. Cristóbal Colón 4275,-33.42358,-70.58067
+352,LC024 - Américo Vespucio / Pdte Kennedy,Cerro La Parva 23100,-33.40595,-70.58616
+353,LC025 - Noruega,Noruega 6749,-33.40302,-70.56261
+354,LC026 - Alcántara / Vaticano,Alcántara 1251,-33.42732,-70.58446
+355,LC027 - IV Centenario / El Galeón,IV Centenario 755,-33.41466,-70.55761
+356,LC028 - Mar De Coral,Gerónimo de Alderete 601,-33.39828,-70.56019
+357,LC029 - Málaga / Rapallo,Málaga 701,-33.42088,-70.58455
+358,LC030 - Martín de Zamora / Algeciras,Martín de Zamora 4621,-33.41916,-70.57765
+359,LC031 - Presidente Errázuriz / Enrique Foster,Presidente Errázuriz 3494,-33.42074,-70.59233
+360,LC032 - Padre Hurtado / Pdte Kennedy Lateral,Avenida Padre Hurtado Norte 611,-33.39028,-70.54789
+361,LC033 - Vitacura / San Patricio,Av. Vitacura 2949,-33.41128,-70.60241
+362,LC034 - Zurich,Zurich 287,-33.41527,-70.60374
+363,LC035 - Escuela Militar,Los Militares esquina Américo Vespucio Norte,-33.41376,-70.58409
+364,LC036 - Las Condes / Valle Alegre,Av. las Condes 11113,-33.37828,-70.52837
+365,LC037 - Manquehue Sur / Isabel La Católica,Av. Manquehue Sur 1564,-33.42513,-70.56365
+366,LC038 - Plaza Brasilia,Av. Presidente Kennedy Lateral 6350,-33.39694,-70.56747
+367,LC039 Tomás Moro / Apoquindo,Tomás Moro 28,-33.40849,-70.55205
+368,LC040 - Manquehue Sur / Alonso de Camargo,Av. Manquehue Sur 1269,-33.42072,-70.56438
+369,LC041 - Gertrudis Echeñíque / Callao,Gertrudis Echeñique 234,-33.41818,-70.59125
+370,LC042 - Padre Hurtado / Las Condes,Av. Padre Hurtado Central 97,-33.39441,-70.54496
+371,LC043 - Las Condes / Estoril,Av. Las Condes 10251,-33.38419,-70.534
+372,LC044 - Lat. Kennedy / Gerónimo de Alderete,Av. Presidente Kennedy Lateral 7107,-33.39476,-70.56061
+373,LC045 - Cristóbal Colón / Padre Hurtado,Av Cristóbal Colón 8909,-33.41659,-70.53903
+374,LC046 - Padre Hurtado / Gral. Blanche,Av. Padre Hurtado Sur 238,-33.40937,-70.54197
+375,LC047 - Apoquindo / Luiz Zegers,Av. Apoquindo 5285,-33.41092,-70.57373
+376,LC048 - Latadia / Américo Vespucio,Latadia 4454,-33.42817,-70.57404
+377,LC049 - Presidente Riesco / Américo Vespucio,Presidente Riesco Esquina Américo Vespucio Norte,-33.41065,-70.58663
+378,LC050 - IV Centenario / Apoquindo,IV Centenario 8,-33.40885,-70.56529
+379,LC051 - IV Centenario / Manuel Claro Vial,IV Centenario 1878,-33.42745,-70.54259
+380,LC052 - IV Centenario / Alejandro Fleming,IV Centenario 1371,-33.42441,-70.54618
+381,LC053 - Sebastián Elcano / Victor Rae,Sebastián Elcano 1949,-33.43009,-70.56989
+382,LC054 - Padre Hurtado / Bocaccio,Padre Hurtado Central 709,-33.4008,-70.54461
+383,LC055 - Mall Los Dominicos,Av. Padre Hurtado Sur 837,-33.41425,-70.53993
+384,LC056 - Imperial,Imperial 680,-33.41452,-70.54981
+385,LC057 - Paul Harris / Cristóbal Colón,Paul Harris 633,-33.41599,-70.53418
+386,LC058 - Plaza Horacio Rivarola,Alonso De Camargo 5091,-33.42114,-70.57017
+387,LC059 - Sánchez Fontecilla / I. La Católica,Mariano Sánchez Fontecilla 1834,-33.43103,-70.58473
+388,LC060 - Rotonda La Capitanía,La Capitanía 473,-33.41362,-70.57036
+389,LC061 - Apoquindo / Hans C Andersen,Av. Apoquindo 4276,-33.41445,-70.58615
+390,LC062 - Visviri,Visviri 1263,-33.42064,-70.54018
+391,LC063 - Isabel La Católica / El Pillán,Isabel La Católica 6676,-33.42511,-70.55995
+392,LC064 - Luis Rodríguez Velasco - Cnel Pereira,Luis Rodríguez Velasco 4751,-33.41342,-70.57963
+393,LC065 - Alsacia / Apoquindo,Alsacia 24,-33.41541,-70.59053
+394,LC066 - Cerro Colorado / Rosario Norte,Cerro Colorado 5612,-33.40218,-70.57542
+395,LC067 - Isidora Goyenechea / Carmencita,Isidora Goyenechea 3000,-33.41428,-70.59806
+396,LC068 - Metro Manquehue - Sur,Av. Manquehue Sur 120,-33.40887,-70.56705
+397,LC069 - Cristóbal Colón / Fuenteovejuna,Fuenteovejuna 1015,-33.41771,-70.54672
+398,LC070 - Alonso De Córdova Interior,Alonso de Córdova 5225,-33.40649,-70.57589
+399,LC071 - Burgos / Apoquindo,Burgos 71,-33.41565,-70.58788
+400,LC072 - Estadio Israelita,Av. las Condes 8349,-33.39774,-70.55065
+401,LC073 - Padre Hurtado / Camino El Alba,Padre Hurtado Central 1580,-33.40581,-70.54335
+402,LC074 - Del Inca / Antonia Salas,Del Inca 4781,-33.41611,-70.57684
+403,LC075 - La Oración / Gerónimo De Alderete,La Oración 391,-33.40121,-70.55961
+404,LC076 - La Posada / San Antonio,Camino La Posada 12972,-33.37578,-70.50973
+405,LC077 - Mall Sport,Av. Las Condes 13451,-33.37078,-70.50731
+406,LC078 - Libia / Las Condes,Av. las Condes 9258,-33.39096,-70.54205
+407,LC079 - Mallalil,Mallalil 7525,-33.42929,-70.55398
+408,LC080 - Manquehue Sur / Carlos Alvarado,Av. Manquehue Sur 1911,-33.42937,-70.56505
+409,LC081 - Padre Hurtado / Alejandro Fleming,Av. Padre Hurtado Sur 1688,-33.42363,-70.53799
+410,LC082 - Plaza Domingo Bondi,Diego de Deza 1209,-33.41961,-70.56807
+411,LC083 - Padre Hurtado / Nueva Bilbao,Av Padre hurtado Sur 1869,-33.427,-70.53855
+412,LC084 - Presidente Errázuriz / Alcántara,Pdte Errázuriz 3943,-33.42037,-70.58841
+413,LC085 - Plaza La Condordia,Latadia 5062,-33.42759,-70.57054
+414,LC086 - Tomás Moro / Alejandro Fleming,Tomás Moro 1651,-33.42558,-70.55419
+415,LC087 - Hospital DIPRECA,Vital Apoquindo 1150,-33.41618,-70.52927
+416,LC088 - Cerro Colorado / Manquehue Norte,Cerro Colorado 6060,-33.40053,-70.57051
+417,LC089 - Chesterton / Bocaccio,Bocaccio 506,-33.40049,-70.54751
+418,LC090 - Plaza República de Paraguay,Del Inca 4435,-33.41791,-70.58135
+419,LC091 - Las Tranqueras / Pinares,Pinares 636,-33.39445,-70.55363
+420,LC092 - Manquehue Sur / El Director,Av. Manquehue Sur 674,-33.41275,-70.5663
+421,LC093 - Los Estandartes,Av. Presidente Riesco 4550,-33.40827,-70.58311
+422,LC094 - Sánchez Fontecilla / Martín De Zamora,Mariano Sánchez Fontecilla 908,-33.42468,-70.59228
+423,LC096 - La Casona,Camino La Posada 210,-33.3749,-70.50518
+424,IT01 - Itaú,Av. Presidente Riesco 5537,-33.4043,-70.57381
+425,P62 - El Cerro,750 Av. El Cerro,-33.41552,-70.61732
+426,P63 - Carmen Sylva / Hernando De Aguirre,2702 Carmen Sylva,-33.42396,-70.59922
+427,P64 - Seminario / Ricardo Matte Pérez,Seminario 82,-33.43991,-70.63005
