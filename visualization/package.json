@@ -1,0 +1,10 @@
+{
+  "name": "examen",
+  "version": "1.0.0",
+  "main": "js/main.js",
+  "license": "MIT",
+  "dependencies": {
+    "@types/d3": "^7.4.0",
+    "prettier": "^2.7.1"
+  }
+}
