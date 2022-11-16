@@ -1,7 +1,7 @@
 {
   "name": "examen",
   "version": "1.0.0",
-  "main": "js/main.js",
+  "main": "index.html",
   "license": "MIT",
   "dependencies": {
     "@types/d3": "^7.4.0",
