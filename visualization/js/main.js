@@ -8,7 +8,7 @@ let STATION_BINS = null;
 let AVAILABILITY_DATA = {};
 let SELECTED_DAY = 0;
 let SELECTED_HOUR = 0;
-let SELECTED_THRESHOLD = 1;
+let SELECTED_THRESHOLD = 3;
 
 // Adapted from https://observablehq.com/@d3/zoomable-map-tiles
 // https://observablehq.com/@d3/zoomable-raster-vector
@@ -16,6 +16,7 @@ let SELECTED_THRESHOLD = 1;
 const svg = d3
     .select("body")
     .append("svg")
+    .attr("pointer-events", "all")
     .attr("width", WIDTH)
     .attr("height", HEIGHT);
 
@@ -44,7 +45,7 @@ const hexbin = d3.hexbin()
 
 const renderStations = () => {
     svg
-        .selectAll("circle")
+        .selectAll(".station")
         .attr("cx", (d) => projection([d.lon, d.lat])[0])
         .attr("cy", (d) => projection([d.lon, d.lat])[1])
         .attr("r", 3)
@@ -53,7 +54,7 @@ const renderStations = () => {
 
 const renderHexbin = (data, transform) => {
     if (!STATION_DATA) return;
-
+    let redThreshold = 0.5;
     svg.selectAll(".hexagon")
         .data(data)
         .attr("transform", d => `translate(${d.x},${d.y})`)
@@ -61,8 +62,9 @@ const renderHexbin = (data, transform) => {
         .attr("fill", stations => {
             let availabilities = stations.map(s => 1 - AVAILABILITY_DATA[SELECTED_DAY][SELECTED_HOUR][SELECTED_THRESHOLD][s.id]);
             // Return the product of all availabilities
-            let probabilityProduct = availabilities.reduce((a, b) => a * b, 1);
-            return hexColorMap(1 - 4 * probabilityProduct);
+            let probabilityProduct = 1 - availabilities.reduce((a, b) => a * b, 1);
+
+            return hexColorMap((probabilityProduct - redThreshold) / (1 - redThreshold));
         });
 }
 
@@ -97,6 +99,7 @@ d3.csv("processed-data/meta.csv").then((data) => {
         .data(STATION_DATA)
         .enter()
         .append("circle")
+        .attr("class", "station")
         .attr("cx", (d) => projection([d.lon, d.lat])[0])
         .attr("cy", (d) => projection([d.lon, d.lat])[1])
         .attr("r", 3)
@@ -118,6 +121,70 @@ d3.csv("processed-data/meta.csv").then((data) => {
 
 });
 
+const walkableRadius = 20;
+const reasonablyWalkableCircle = svg
+    .append("circle")
+    .attr("r", walkableRadius)
+    .attr("cx", WIDTH / 2)
+    .attr("cy", HEIGHT / 2)
+    .attr("class", "walkable-circle")
+    .attr("fill", "gray")
+    .attr("fill-opacity", 0.8)
+    .attr("stroke", "black")
+    .attr("stroke-width", 2)
+    .attr("stroke-dasharray", "5,5")
+    .attr("opacity", 0.5);
+
+const walkableLabel = svg
+    .append("text")
+    .attr("x", WIDTH / 2)
+    .attr("y", HEIGHT / 2)
+    .attr("class", "walkable-label")
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "middle")
+    .attr("font-size", 8)
+    .attr("font-family", "sans-serif")
+    .attr("fill", "black")
+    .text("Walkable");
+
+const withinRadius = (d, x, y, radius) => {
+    return Math.sqrt(Math.pow(projection([d.lon, d.lat])[0] - x, 2) + Math.pow(projection([d.lon, d.lat])[1] - y, 2)) < radius;
+}
+
+svg.on("mousemove", (event) => {
+    const [x, y] = d3.pointer(event);
+    reasonablyWalkableCircle
+        .attr("cx", x)
+        .attr("cy", y)
+        .attr("fill", "gray");
+    let redThreshold = 0.5;
+    const currentRadius = reasonablyWalkableCircle.attr("r");
+    // paint all stations red first
+    svg.selectAll(".station").attr("fill", "red");
+    // paint all stations within the walkable radius green
+    svg.selectAll(".station")
+        .filter((d) => withinRadius(d, x, y, currentRadius))
+        .attr("fill", "green");
+    // now get the actual data in the walkable radius
+    const walkableStations = STATION_DATA.filter((d) => withinRadius(d, x, y, currentRadius));
+    // For every station, calculate the probability of not finding a bike (1 - availability)
+    // Then, calculate the product of all probabilities, which means not finding a bike at any station
+    // Finally, calculate the probability of finding a bike by subtracting the product from 1
+    const availabilities = walkableStations.map(s => 1 - AVAILABILITY_DATA[SELECTED_DAY][SELECTED_HOUR][SELECTED_THRESHOLD][s.id]);
+    // Compute the product of finding at least one bike at any of the stations in the walkable radius
+    const probabilityProduct = 1 - availabilities.reduce((a, b) => a * b, 1);
+    if (probabilityProduct > 0) {
+        const fillColor = hexColorMap((probabilityProduct - redThreshold) / (1 - redThreshold));
+        reasonablyWalkableCircle.attr("fill", fillColor);
+    }
+
+    walkableLabel
+        .text(`${(probabilityProduct * 100).toFixed(2)}%`)
+        .attr("x", x)
+        .attr("y", y - 10);
+
+
+});
 
 const zoomed = (transform) => {
     const tiles = tile(transform);
@@ -145,7 +212,9 @@ const zoomed = (transform) => {
 
     renderStations(STATION_DATA, transform);
     renderHexbin(STATION_BINS, transform);
+    reasonablyWalkableCircle.attr("r", walkableRadius * transform.k / (1 << 20));
 }
+
 
 
 const zoom = d3.zoom()
