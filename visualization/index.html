@@ -16,6 +16,31 @@
 </head>
 
 <body>
+    <fieldset>
+        <legend>Select a day to measure bike availability</legend>
+        <div>
+            <input type="radio" id="day-0" name="day" value="0" checked>
+            <label for="day-0">Monday</label>
+            <input type="radio" id="day-1" name="day" value="1">
+            <label for="day-1">Tuesday</label>
+            <input type="radio" id="day-2" name="day" value="2">
+            <label for="day-2">Wednesday</label>
+            <input type="radio" id="day-3" name="day" value="3">
+            <label for="day-3">Thursday</label>
+            <input type="radio" id="day-4" name="day" value="4">
+            <label for="day-4">Friday</label>
+            <input type="radio" id="day-5" name="day" value="5">
+            <label for="day-5">Saturday</label>
+            <input type="radio" id="day-6" name="day" value="6">
+            <label for="day-6">Sunday</label>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Select a time of day to measure bike availability</legend>
+        <input type="range" id="time" name="time" min="0" max="23" value="12">
+    </fieldset>
+    <input id="threshold" type="range" min="0" max="10" value="0" step="1">
+    
     <script src='js/main.js' charset='utf-8'></script>
 </body>
 

@@ -34,6 +34,11 @@ const projection = d3.geoMercator()
     .scale(1 / (2 * Math.PI))
     .translate([0, 0]);
 
+// Input section
+const dayInput = d3.select("#day");
+const hourInput = d3.select("#hour");
+const thresholdInput = d3.select("#threshold");
+
 const hexColorMap = d3.interpolateRdYlGn;
 
 
