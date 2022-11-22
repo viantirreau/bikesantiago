@@ -2,13 +2,20 @@ const WIDTH = 800;
 const HEIGHT = 600;
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoidmlhbnRpcnJlYXUiLCJhIjoiY2xhazJpOHdyMDF2MTNwbnMxbzkzMmpsayJ9.7tkQiRhR40t8P7_vXCRXfw'
 const MAP_STYLE = 'viantirreau/clajy669c002414lgwdtdkz22'
+const MAX_HEX_OPACITY = 0.15;
 let STATION_DATA = null;
 let STATION_BINS = null;
 // Recursive map of day,hour,threshold,station_id,availability
 let AVAILABILITY_DATA = {};
 let SELECTED_DAY = 0;
 let SELECTED_HOUR = 0;
-let SELECTED_THRESHOLD = 3;
+let SELECTED_THRESHOLD = 1;
+const WALKABLE_METERS = 512
+
+// Do not modify these values, set the walkable radius in meters above
+const METERS_PER_PIXEL = 32;
+const WALKABLE_RADIUS = WALKABLE_METERS / METERS_PER_PIXEL;
+
 
 // Adapted from https://observablehq.com/@d3/zoomable-map-tiles
 // https://observablehq.com/@d3/zoomable-raster-vector
@@ -34,13 +41,7 @@ const projection = d3.geoMercator()
     .scale(1 / (2 * Math.PI))
     .translate([0, 0]);
 
-// Input section
-const dayInput = d3.select("#day");
-const hourInput = d3.select("#hour");
-const thresholdInput = d3.select("#threshold");
-
 const hexColorMap = d3.interpolateRdYlGn;
-
 
 const hexbin = d3.hexbin()
     .x(d => d.x)
@@ -57,11 +58,11 @@ const renderStations = () => {
         .attr("fill", "red");
 }
 
-const renderHexbin = (data, transform) => {
-    if (!STATION_DATA) return;
+const renderHexbin = () => {
+    if (!STATION_DATA || !STATION_BINS) return;
     let redThreshold = 0.5;
     svg.selectAll(".hexagon")
-        .data(data)
+        .data(STATION_BINS)
         .attr("transform", d => `translate(${d.x},${d.y})`)
         .attr("d", hexbin.hexagon())
         .attr("fill", stations => {
@@ -70,7 +71,8 @@ const renderHexbin = (data, transform) => {
             let probabilityProduct = 1 - availabilities.reduce((a, b) => a * b, 1);
 
             return hexColorMap((probabilityProduct - redThreshold) / (1 - redThreshold));
-        });
+        })
+        .attr("fill-opacity", MAX_HEX_OPACITY);
 }
 
 const processAvailability = (data) => {
@@ -120,16 +122,15 @@ d3.csv("processed-data/meta.csv").then((data) => {
         .attr("class", "hexagon")
         .attr("d", hexbin.hexagon(10))
         .attr("fill", "#ccc")
-        .attr("fill-opacity", 0.5)
-        .attr("stroke", "red")
+        .attr("fill-opacity", MAX_HEX_OPACITY)
+        .attr("stroke", "gray")
         .append("title");
 
 });
 
-const walkableRadius = 20;
 const reasonablyWalkableCircle = svg
     .append("circle")
-    .attr("r", walkableRadius)
+    .attr("r", WALKABLE_RADIUS)
     .attr("cx", WIDTH / 2)
     .attr("cy", HEIGHT / 2)
     .attr("class", "walkable-circle")
@@ -138,7 +139,7 @@ const reasonablyWalkableCircle = svg
     .attr("stroke", "black")
     .attr("stroke-width", 2)
     .attr("stroke-dasharray", "5,5")
-    .attr("opacity", 0.5);
+    .attr("opacity", MAX_HEX_OPACITY);
 
 const walkableLabel = svg
     .append("text")
@@ -150,7 +151,7 @@ const walkableLabel = svg
     .attr("font-size", 8)
     .attr("font-family", "sans-serif")
     .attr("fill", "black")
-    .text("Walkable");
+    .text("");
 
 const withinRadius = (d, x, y, radius) => {
     return Math.sqrt(Math.pow(projection([d.lon, d.lat])[0] - x, 2) + Math.pow(projection([d.lon, d.lat])[1] - y, 2)) < radius;
@@ -163,6 +164,7 @@ svg.on("mousemove", (event) => {
         .attr("cy", y)
         .attr("fill", "gray");
     let redThreshold = 0.5;
+    reasonablyWalkableCircle.attr("fill-opacity", MAX_HEX_OPACITY).attr("opacity", 1);
     const currentRadius = reasonablyWalkableCircle.attr("r");
     // paint all stations red first
     svg.selectAll(".station").attr("fill", "red");
@@ -170,6 +172,8 @@ svg.on("mousemove", (event) => {
     svg.selectAll(".station")
         .filter((d) => withinRadius(d, x, y, currentRadius))
         .attr("fill", "green");
+
+    if (!STATION_DATA || !STATION_BINS || !AVAILABILITY_DATA) return;
     // now get the actual data in the walkable radius
     const walkableStations = STATION_DATA.filter((d) => withinRadius(d, x, y, currentRadius));
     // For every station, calculate the probability of not finding a bike (1 - availability)
@@ -182,14 +186,17 @@ svg.on("mousemove", (event) => {
         const fillColor = hexColorMap((probabilityProduct - redThreshold) / (1 - redThreshold));
         reasonablyWalkableCircle.attr("fill", fillColor);
     }
-
+    let probabilityText = probabilityProduct > 0 ? `${(probabilityProduct * 100).toFixed(2)}%` : "0%";
+    let probabilityMath = currentRadius > 90 ? `P(#bikes ≥ ${SELECTED_THRESHOLD}) = ` : "";
     walkableLabel
-        .text(`${(probabilityProduct * 100).toFixed(2)}%`)
+        .text(probabilityMath + probabilityText)
         .attr("x", x)
-        .attr("y", y - 10);
-
-
+        .attr("y", y - 3 - currentRadius / 6)
+        .attr("opacity", 1)
+        .attr("font-size", Math.min(14, currentRadius / 3));
 });
+
+
 
 const zoomed = (transform) => {
     const tiles = tile(transform);
@@ -215,17 +222,30 @@ const zoomed = (transform) => {
         .attr("height", tiles.scale);
 
 
-    renderStations(STATION_DATA, transform);
-    renderHexbin(STATION_BINS, transform);
-    reasonablyWalkableCircle.attr("r", walkableRadius * transform.k / (1 << 20));
+    renderStations();
+    renderHexbin();
+    reasonablyWalkableCircle.attr("r", WALKABLE_RADIUS * transform.k / (1 << 20));
+}
+
+const hideHexagonsAndCircle = () => {
+    // Hide the hexagons and the walkable circle when doing a zoom
+    svg.selectAll(".hexagon").transition(d3.transition().duration(0)).attr("fill-opacity", 0).attr("opacity", 0);
+    walkableLabel.attr("opacity", 0);
+    reasonablyWalkableCircle.attr("fill-opacity", 0).attr("opacity", 0);
+}
+
+const showHexagons = () => {
+    svg.selectAll(".hexagon").transition(d3.transition().duration(200)).attr("fill-opacity", MAX_HEX_OPACITY).attr("opacity", 1);
 }
 
 
 
 const zoom = d3.zoom()
-    .scaleExtent([1 << 19, 1 << 22])
+    .scaleExtent([1 << 20, 1 << 23])
     .extent([[0, 0], [WIDTH, HEIGHT]])
-    .on("zoom", ({ transform }) => { zoomed(transform) });
+    .on("zoom", ({ transform }) => { zoomed(transform) })
+    .on("start", hideHexagonsAndCircle)
+    .on("end", showHexagons);
 
 
 svg
@@ -236,4 +256,3 @@ svg
         .scale(-(1 << 20))
         .translate(...projection([-70.6, -33.43]))
         .scale(-1));
-
