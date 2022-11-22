@@ -1,3 +1,9 @@
+const updateEverything = () => {
+    renderStations();
+    renderHexbin();
+    renderLineChartOverview();
+}
+
 const selectedDay = document.querySelector("#selected-day");
 const dayOptionsContainer = document.querySelector("#day-options-container");
 const dayOptionsList = document.querySelectorAll(".day-option");
@@ -13,8 +19,7 @@ dayOptionsList.forEach(option => {
         SELECTED_DAY = +option.querySelector(".radio").value;
         selectedDay.innerHTML = option.querySelector("label").innerHTML;
         dayOptionsContainer.classList.remove("active");
-        renderStations();
-        renderHexbin();
+        updateEverything();
     });
 });
 
@@ -33,8 +38,7 @@ hourOptionsList.forEach(option => {
         SELECTED_HOUR = +option.querySelector(".radio").value;
         selectedHour.innerHTML = option.querySelector("label").innerHTML;
         hourOptionsContainer.classList.remove("active");
-        renderStations();
-        renderHexbin();
+        updateEverything();
     });
 });
 
@@ -53,7 +57,6 @@ availabilityOptionsList.forEach(option => {
         SELECTED_THRESHOLD = +option.querySelector(".radio").value;
         selectedAvailability.innerHTML = option.querySelector("label").innerHTML;
         availabilityOptionsContainer.classList.remove("active");
-        renderStations();
-        renderHexbin();
+        updateEverything();
     });
 });

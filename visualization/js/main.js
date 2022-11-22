@@ -1,5 +1,7 @@
 const WIDTH = 800;
 const HEIGHT = 600;
+const PLOT_WIDTH = 700;
+const PLOT_HEIGHT = 600;
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoidmlhbnRpcnJlYXUiLCJhIjoiY2xhazJpOHdyMDF2MTNwbnMxbzkzMmpsayJ9.7tkQiRhR40t8P7_vXCRXfw'
 const MAP_STYLE = 'viantirreau/clajy669c002414lgwdtdkz22'
 const MAX_HEX_OPACITY = 0.15;
@@ -15,7 +17,7 @@ const WALKABLE_METERS = 512
 // Do not modify these values, set the walkable radius in meters above
 const METERS_PER_PIXEL = 32;
 const WALKABLE_RADIUS = WALKABLE_METERS / METERS_PER_PIXEL;
-
+const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 // Adapted from https://observablehq.com/@d3/zoomable-map-tiles
 // https://observablehq.com/@d3/zoomable-raster-vector
@@ -26,6 +28,39 @@ const svg = d3
     .attr("pointer-events", "all")
     .attr("width", WIDTH)
     .attr("height", HEIGHT);
+
+const linePlot = d3.select("body")
+    .append("svg")
+    .attr("class", "line-plot")
+    .attr("width", PLOT_WIDTH)
+    .attr("height", PLOT_HEIGHT)
+
+const timeFormat = d3.utcFormat("%I %p")
+const linePlotXScale = d3.scaleUtc()
+    .domain([0, 24 * 3600 * 1000])
+    .range([30, PLOT_WIDTH - 20]);
+const linePlotYScale = d3.scaleLinear()
+    .domain([0, 1])
+    .range([PLOT_HEIGHT - 20, 30]);
+
+linePlot.append("g")
+    .attr("class", "x-axis")
+    .attr("transform", `translate(0, ${PLOT_HEIGHT - 20})`)
+    .call(d3.axisBottom().scale(linePlotXScale).tickFormat(timeFormat));
+
+linePlot.append("g")
+    .attr("class", "y-axis")
+    .attr("transform", `translate(30, 0)`)
+    .call(d3.axisLeft().scale(linePlotYScale));
+
+linePlot.append("path")
+    .attr("class", "line-plot-line")
+
+linePlot.append("text")
+    .attr("class", "line-plot-title")
+    .attr("x", PLOT_WIDTH / 2)
+    .attr("y", 15)
+    .attr("text-anchor", "middle");
 
 let image = svg.append("g")
     .attr("pointer-events", "none")
@@ -89,8 +124,10 @@ const processAvailability = (data) => {
 
 d3.csv("processed-data/station_bike_availability.csv").then(data => {
     processAvailability(data);
-    console.log(AVAILABILITY_DATA)
-})
+    renderLineChartOverview();
+});
+
+
 
 
 d3.csv("processed-data/meta.csv").then((data) => {
@@ -125,7 +162,6 @@ d3.csv("processed-data/meta.csv").then((data) => {
         .attr("fill-opacity", MAX_HEX_OPACITY)
         .attr("stroke", "gray")
         .append("title");
-
 });
 
 const reasonablyWalkableCircle = svg
@@ -176,25 +212,62 @@ svg.on("mousemove", (event) => {
     if (!STATION_DATA || !STATION_BINS || !AVAILABILITY_DATA) return;
     // now get the actual data in the walkable radius
     const walkableStations = STATION_DATA.filter((d) => withinRadius(d, x, y, currentRadius));
-    // For every station, calculate the probability of not finding a bike (1 - availability)
-    // Then, calculate the product of all probabilities, which means not finding a bike at any station
-    // Finally, calculate the probability of finding a bike by subtracting the product from 1
-    const availabilities = walkableStations.map(s => 1 - AVAILABILITY_DATA[SELECTED_DAY][SELECTED_HOUR][SELECTED_THRESHOLD][s.id]);
-    // Compute the product of finding at least one bike at any of the stations in the walkable radius
-    const probabilityProduct = 1 - availabilities.reduce((a, b) => a * b, 1);
-    if (probabilityProduct > 0) {
-        const fillColor = hexColorMap((probabilityProduct - redThreshold) / (1 - redThreshold));
+    let averageAvailabilityAtSelectedHour = 0;
+    if (walkableStations.length > 0) {
+        // For every station within radius, calculate the probability of not finding a bike (1 - availability).
+        // Then, calculate the product of all probabilities, which means not finding a bike at any station.
+        // Finally, calculate the probability of finding a bike by subtracting the product from 1.
+        const averageAvailabilityByHour = Object.values(AVAILABILITY_DATA[SELECTED_DAY]).map(hourlyData => {
+            const availabilitiesByHour = walkableStations.map(s => 1 - hourlyData[SELECTED_THRESHOLD][s.id]);
+            // Compute the product of finding at least one bike at any of the stations in the walkable radius
+            return 1 - availabilitiesByHour.reduce((a, b) => a * b, 1);
+        })
+        averageAvailabilityAtSelectedHour = averageAvailabilityByHour[SELECTED_HOUR];
+        drawLineFromData(averageAvailabilityByHour);
+        d3.select(".line-plot-title").text(`Average probability of finding ${SELECTED_THRESHOLD}+ bikes in some station within the radius, on a ${DAYS[SELECTED_DAY]}`);
+    } else {
+        renderLineChartOverview();
+    }
+
+    if (averageAvailabilityAtSelectedHour > 0) {
+        const fillColor = hexColorMap((averageAvailabilityAtSelectedHour - redThreshold) / (1 - redThreshold));
         reasonablyWalkableCircle.attr("fill", fillColor);
     }
-    let probabilityText = probabilityProduct > 0 ? `${(probabilityProduct * 100).toFixed(2)}%` : "0%";
+    let probabilityText = averageAvailabilityAtSelectedHour > 0 ? `${(averageAvailabilityAtSelectedHour * 100).toFixed(2)}%` : "0%";
     let probabilityMath = currentRadius > 90 ? `P(#bikes ≥ ${SELECTED_THRESHOLD}) = ` : "";
     walkableLabel
         .text(probabilityMath + probabilityText)
         .attr("x", x)
         .attr("y", y - 3 - currentRadius / 6)
         .attr("opacity", 1)
-        .attr("font-size", Math.min(14, currentRadius / 3));
+        .attr("font-size", Math.min(13, 2 + currentRadius / 3.5));
+
+
 });
+
+const renderLineChartOverview = () => {
+    if (!AVAILABILITY_DATA) return;
+
+    const averageAvailabilityByHour = Object.values(AVAILABILITY_DATA[SELECTED_DAY]).map(hourlyData => {
+        // Filter only numbers
+        return d3.mean(Object.values(hourlyData[SELECTED_THRESHOLD]).filter(d => !isNaN(d)));
+    });
+
+    drawLineFromData(averageAvailabilityByHour);
+    d3.select(".line-plot-title").text(`Average probability that any station has ${SELECTED_THRESHOLD}+ bikes`);
+};
+
+const drawLineFromData = (data) => {
+    d3.select(".line-plot-line")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+            .x((d, i) => linePlotXScale(i * 3600 * 1000))
+            .y(d => linePlotYScale(d))
+        );
+}
 
 
 

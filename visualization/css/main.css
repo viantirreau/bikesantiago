@@ -1,3 +1,7 @@
-.hexaagon {
-  transition: opacity 0.2s ease-out;
+.line-plot {
+  margin: 15px 30px;
+}
+
+body {
+  margin: 12px;
 }
