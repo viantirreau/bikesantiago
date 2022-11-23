@@ -27,7 +27,7 @@
   </head>
 
   <body>
-    <div class="container flex">
+    <div class="container dflex">
       <div class="left"></div>
       <div class="half">
         <h1>1. Caracterización de dominio</h1>
@@ -79,8 +79,8 @@
           pueden tomar y dejar en cualquier lugar, pero aún la cobertura es
           limitada y antes prefiero tomar una micro.
         </p>
-        <div class="flex">
-          <div>
+        <div class="dflex md">
+          <div class="flex">
             <p>
               Acá hay un pantallazo de la
               <a
@@ -117,23 +117,154 @@
               meses.
             </p>
             <p>
-              El <i>dataset</i> que recopilé tiene 238 cicloestaciones con sus
-              posiciones geográficas, y ~200 mil filas con la disponibilidad de
-              bicicletas en cada estación. Como guardar la disponibilidad de
-              cada estación una vez por minuto necesitaría casi 72 millones de
-              filas en 7 meses, una optimización obvia es guardar solo los
-              "deltas", es decir, registrar en qué momento una estación registró
-              un cambio, y cuál es la cantidad de bicicletas que quedaron en esa
-              estación en ese momento.
+              El
+              <a
+                href="https://github.com/viantirreau/bikesantiago/tree/main/raw-data"
+                ><i>dataset</i></a
+              >
+              que recopilé tiene 238 cicloestaciones con sus posiciones
+              geográficas, y ~200 mil filas con la disponibilidad de bicicletas
+              en cada estación. Como guardar la disponibilidad de cada estación
+              una vez por minuto necesitaría casi 72 millones de filas en 7
+              meses, una optimización obvia es guardar solo los "deltas", es
+              decir, registrar en qué momento una estación registró un cambio, y
+              cuál es la cantidad de bicicletas que quedaron en esa estación en
+              ese momento.
             </p>
           </div>
           <img
             src="img/bikesantiago_availability.jpg"
             alt="BikeSantiago App Screenshot"
-            class="w40 shadow"
+            class="w35 shadow"
           />
         </div>
+        <p>
+          Cada estación tiene un nombre y una posición geográfica. Además,
+          tienen un atributo de capacidad, que es la cantidad máxima de
+          bicicletas que pueden estar en esa estación. Sin embargo, para efectos
+          del análisis, no consideré la capacidad de las estaciones, ya que me
+          importa más tomar una bici rápido sin tener que caminar tanto, que
+          pedalear un par de metros más para llegar a una estación con
+          disponibilidad si la primera opción estaba llena.
+        </p>
+
+        <p>
+          A partir del <i>dataset</i> descrito, diseñé una herramienta de
+          visualización con algunos usuarios en mente. El primer usuario soy yo,
+          o más bien una persona con curiosidad por conocer la dinámica de
+          disponibilidad a lo largo de la semana, según hora del día y posición
+          geográfica, potencialmente para evaluar el servicio antes de
+          contratarlo. Otro usuario podría ser un analista de Bikesantiago, que
+          busque <i>insights</i>
+          sobre la dinámica de uso de la red de bicicletas, mejorar la
+          redistribución, buscar incentivos para que los mismos usuarios
+          devuelvan las bicicletas donde más se necesitarán, o para definir las
+          mejores ubicaciones para nuevas estaciones en función de la demanda
+          observada.
+        </p>
         <h1>2. Abstracción de datos y tareas</h1>
+        <p>
+          En términos de la clasificación de los datos, se puede encontrar de
+          tipo ítem, atributo y posiciones. Una cicloestación es un ítem, y se
+          caracteriza por atributos como su identificador (categórico tipo
+          llave, determina los demás atributos), el nombre (categórico tipo
+          valor), y la capacidad (cuantitativo, discreto, secuencial, no
+          cíclico, de tipo valor). Además, tiene una posición geográfica, que es
+          de tipo posición.
+        </p>
+        <table>
+          <tr>
+            <th>Nombre del atributo</th>
+            <th>Clasificación</th>
+          </tr>
+          <tr>
+            <td>Identificador</td>
+            <td>Categórico, tipo llave (compuesta)</td>
+          </tr>
+          <tr>
+            <td>Nombre</td>
+            <td>Categórico, tipo valor</td>
+          </tr>
+          <tr>
+            <td>Capacidad (la ignoraremos)</td>
+            <td>Cuantitativo, discreto, secuencial, no cíclico, tipo valor</td>
+          </tr>
+          <tr>
+            <td>Posición geográfica</td>
+            <td>Posición, tipo valor</td>
+          </tr>
+        </table>
+        <p>
+          Por otra parte, existen los datos (ítems) de la serie de tiempo, que
+          son enlazados mediante el identificador de la estación, un
+          <i>timestamp</i> (cuantitativo, discreto [en segundos enteros],
+          secuencial y de tipo valor) y una disponibilidad instantánea de
+          bicicletas (cuantitativo, discreto, secuencial, no cíclico, de tipo
+          valor).
+        </p>
+        <p>
+          No obstante, la visualización no utiliza los datos de la serie de
+          tiempo en bruto, sino una versión procesada que deriva ciertas
+          propiedades. En primer lugar, agrega un atributo para el día de la
+          semana y otro para la hora del día. Adicionalmente, usa un atributo al
+          que me refiero como
+          <i>threshold</i> (umbral), que es utilizado para determinar una
+          probabilidad de la siguiente forma. Dada una estación, un día de la
+          semana, una hora del día, y un umbral, se calcula la probabilidad de
+          que la estación tenga una disponibilidad mayor o igual al umbral en
+          esa ventana horaria, tomando como referencia el historial de
+          disponibilidad de la estación en esa misma ventana. Por ejemplo, si el
+          umbral es 5, y la estación tiene una disponibilidad de 5 o más
+          bicicletas en el 90% de las veces cuando se revisó esa ventana
+          horaria, entonces la probabilidad de disponibilidad es 0.9 para un
+          umbral de 5.
+        </p>
+        <table>
+          <tr>
+            <th>Nombre del atributo</th>
+            <th>Clasificación</th>
+          </tr>
+          <tr>
+            <td>Día de la semana</td>
+            <td>Categórico, discreto, cíclico, tipo llave (compuesta)</td>
+          </tr>
+          <tr>
+            <td>Hora del día</td>
+            <td>Categórico, discreto, cíclico, tipo llave (compuesta)</td>
+          </tr>
+          <tr>
+            <td>Umbral</td>
+            <td>
+              Cuantitativo, discreto, secuencial, no cíclico, tipo llave
+              (compuesta)
+            </td>
+          </tr>
+          <tr>
+            <td>Identificador de la estación</td>
+            <td>Categórico, tipo llave (compuesta)</td>
+          </tr>
+          <tr>
+            <td>Probabilidad de disponibilidad</td>
+            <td>Cuantitativo, continuo, secuencial, no cíclico, tipo valor</td>
+          </tr>
+        </table>
+        <p>
+          En definitiva, los ítems a visualizar corresponden a una tupla
+          identificada por una llave compuesta, que contiene un día de la
+          semana, una hora, un umbral y un identificador de estación. Dicha
+          llave compuesta tiene asociada la probabilidad de disponibilidad en la
+          estación en esa ventana horaria, para el umbral dado.
+        </p>
+        <p>
+          La razón de incluir el umbral como parte de la llave compuesta es que
+          permite tomar decisiones sobre la certeza de que la o las bicicletas
+          que están disponibles en una estación se encuentren en buenas
+          condiciones. Si fuese una visualización binaria, del estilo "hay
+          bicicletas o no" con cierta probabilidad, dentro del "hay bicicletas"
+          puede haber algunas en mal estado, y queremos evitar sorpresas. Por
+          eso, considero importante que el usuario pueda definir su margen de
+          seguridad.
+        </p>
         <h1>3. Codificación visual y de interacción</h1>
         <h1>4. Implementación algorítmica</h1>
         La implementación se encuentra publicada en
