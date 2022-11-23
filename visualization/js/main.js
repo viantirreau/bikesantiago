@@ -133,7 +133,7 @@ const renderLineChartOverview = () => {
     });
 
     drawLineFromData(averageAvailabilityByHour);
-    d3.select(".line-plot-title").text(`Average probability that any station has ${SELECTED_THRESHOLD}+ bikes`);
+    d3.select(".line-plot-title").text(`Average probability that any station has ${SELECTED_THRESHOLD}+ bikes on a ${DAYS[SELECTED_DAY]}`);
 };
 
 const drawLineFromData = (data) => {
