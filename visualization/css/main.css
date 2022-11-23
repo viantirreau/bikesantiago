@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,500,700&display=swap");
 * {
   margin: 0;
   box-sizing: border-box;
@@ -22,7 +22,7 @@ input {
   cursor: pointer;
 }
 h1 {
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 h2,
 h3,
@@ -51,7 +51,7 @@ img {
 }
 p {
   font-size: 16px;
-  margin: 0 0 16px;
+  margin: 16px 0 0 0;
 }
 
 .line-plot {
@@ -120,7 +120,7 @@ body {
   object-fit: cover;
   object-position: bottom;
   max-height: min-content;
-  margin: 0 30px 20px 25px;
+  margin: 20px 30px 20px 25px;
 }
 
 table,
@@ -135,5 +135,11 @@ td {
 }
 
 table {
-  margin: 10px auto;
+  margin: 20px auto;
+}
+
+ol {
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-top: 20px;
 }

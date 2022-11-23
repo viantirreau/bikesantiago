@@ -265,9 +265,122 @@
           eso, considero importante que el usuario pueda definir su margen de
           seguridad.
         </p>
+        <p>
+          En cuanto a la abstracción de tareas que busca soportar la
+          visualización, se encuentran las tres siguientes:
+        </p>
+        <ol>
+          <li>
+            Explorar la distribución espacial de la red de cicloestaciones
+            ofrecida por Bikesantiago.
+          </li>
+          <li>
+            Identificar la probabilidad de disponibilidad de bicicletas dentro
+            de un radio determinado, para un umbral dado, en un par día-hora.
+            Además, descubrir las tendencias de disponibilidad a lo largo de un
+            día dentro de dicho radio.
+          </li>
+          <li>
+            Comparar la disponibilidad de bicicletas entre la zona oriente y la
+            zona central de la ciudad, para una hora, día y umbral determinado.
+          </li>
+        </ol>
+        <p>
+          Para la primera tarea, se busca que la herramienta permita conocer la
+          posición geográfica de las 238 cicloestaciones en un marco de
+          referencia que un usuario común pueda entender, como un mapa de la
+          ciudad. En el caso de la segunda tarea, se pretende que el usuario sea
+          capaz de centrarse en una zona de la ciudad, y determinar las
+          cicloestaciones que se ubican a un radio "caminable" predeterminado,
+          simulando una búsqueda de bicicletas en la zona. La funcionalidad de
+          presentar también las tendencias horarias de disponibilidad dentro de
+          la zona es lo que más necesita un usuario como yo, que ya conoce la
+          cobertura a alto nivel de la red de estaciones, pero no tiene una idea
+          clara de la disponibilidad de bicicletas en una zona en particular.
+          Por último, para la tercera tarea, se busca que el usuario pueda
+          comparar la disponibilidad de forma panorámica, pudiendo seleccionar o
+          filtrar una hora, día y umbral como parte de los atributos de la llave
+          compuesta.
+        </p>
         <h1>3. Codificación visual y de interacción</h1>
+        <p>
+          La visualización tiene como capa base un mapa de Santiago, que se
+          puede desplazar y acercar. Este mapa permite contextualizar las tres
+          tareas que se pretenden abstraer, dado que sin esa referencia, no se
+          puede hacer sentido de la ubicación de las estaciones. Cada estación
+          se representa con una marca de tipo punto, y utiliza un canal
+          bidimensional que codifica el atributo de tipo posición
+          correspondiente. Esta marca satisface principalmente a los
+          requerimientos de la primera tarea.
+        </p>
+        <p>
+          Para la segunda tarea, elegí un ítem de tipo área circular, que
+          representa el radio que definimos como "caminable". La marca de
+          círculo se desplaza junto con el cursor y es utilizable en cualquier
+          posición y nivel de acercamiento, manteniendo el radio proyectado
+          constante. Además, este ítem tiene asociado un canal de color que
+          codifica la probabilidad de encontrar al menos "umbral" bicicletas en
+          cualquiera de las estaciones que se encuentran dentro del área
+          circular. Este canal de color satisface principalmente a los
+          requerimientos de la segunda tarea. Para complementar la codificación
+          de color, que se sabe tiene menor fidelidad o exactitud, agregué una
+          marca de tipo texto que muestra el valor de la probabilidad en formato
+          numérico. Esta marca de texto se encuentra cerca del centro del
+          círculo, y se actualiza en tiempo real. Si bien esto no agrega una
+          dimensión de datos, considero que mantiene elevado el
+          <i>data-ink ratio</i>, ya que es útil para el usuario que necesita más
+          precisión.
+        </p>
+        <p>
+          Para satisfacer el requisito adicional de mostrar las tendencias
+          presente en la segunda tarea, agregué una marca de punto en forma de
+          gráfico de líneas, que muestra la probabilidad de disponibilidad de
+          bicicletas en cualquier estación (posición en el eje vertical) a lo
+          largo de todo el día seleccionado (posición en el eje horizontal).
+          Este ítem se encuentra a la derecha del mapa y se actualiza en tiempo
+          real, de forma que se puede analizar la tendencia de disponibilidad de
+          bicicletas en la zona seleccionada. Para no eliminar la visualización
+          en caso de que no haya estaciones dentro del área circular, reutilicé
+          el espacio del gráfico para mostrar la tendencia de probabilidad
+          promedio en todas las estaciones de la red, para el día y umbral
+          seleccionado.
+        </p>
+        <p>
+          Como son muchas estaciones que se deben representar en forma
+          panorámica, opté por no codificar la probabilidad de disponibilidad
+          individual directamente en esta marca, sino utilizar una estrategia de
+          agregación mediante HexBins. Cada hexágono es una marca de tipo área,
+          y representa un grupo de estaciones que se encuentran dentro de su
+          área. Esta marca es independiente del área circular utilizada para
+          responder a la segunda abstracción de tareas, pero por consistencia
+          también utiliza el canal de color para codificar la probabilidad de
+          disponibilidad agregada. Un color rojo indica que la probabilidad de
+          disponibilidad es baja, un color amarillo que es media, y un color
+          verde que es alta. Dado que se muestra una panorámica de la
+          probabilidad de disponibilidad a lo largo de toda la región de
+          cobertura de Bikesantiago, esta codificación satisface los
+          requerimientos de la tercera tarea. La capa de HexBins es estática (no
+          interactiva directamente) y se genera en respuesta a las marcas de
+          punto que codifican la posición de las estaciones. Se desactiva cuando
+          se mueve o acerca el mapa, permitiendo al usuario encontrar un destino
+          de análisis antes de realizar la agregación automática, con lo que
+          minimiza la interferencia visual entre las tareas de exploración y
+          comparación.
+        </p>
+        <p>
+          Cabe destacar que la probabilidad de disponibilidad dentro de un área
+          se calcula considerando que cualquier estación en su interior podría
+          satisfacer el umbral por sí sola. Es decir, si el umbral es 5
+          bicicletas y hay 3 estaciones en el área, entonces la probabilidad se
+          calcula observando todas las ventanas de tiempo en las que hay al
+          menos 5 bicicletas disponibles en cualquiera de las 3 estaciones.
+          Nuevamente, si durante 50% de las ventanas de tiempo hay 5 bicicletas
+          disponibles en al menos una de las 3 estaciones, entonces la
+          probabilidad de disponibilidad es 0.5 para dicha configuración
+          hora-día y un umbral de 5.
+        </p>
         <h1>4. Implementación algorítmica</h1>
-        La implementación se encuentra publicada en
+        La implementación más reciente se encuentra publicada en
         <a href="https://bikesantiago.coloro.cl">
           https://bikesantiago.coloro.cl</a
         >.
