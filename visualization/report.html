@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      type="image/png"
+      sizes="16x16"
+      rel="icon"
+      href="media/favicon-16.png"
+    />
+    <link
+      type="image/png"
+      sizes="32x32"
+      rel="icon"
+      href="media/favicon-32.png"
+    />
+    <link
+      type="image/png"
+      sizes="96x96"
+      rel="icon"
+      href="media/favicon-96.png"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <title>Reporte de visualización</title>
+  </head>
+
+  <body>
+    <div class="container flex">
+      <div class="left"></div>
+      <div class="half">
+        <h1>1. Caracterización de dominio</h1>
+        <p>
+          Estoy a punto de salir de Ingeniería, ya es mi último semestre, y si
+          bien tengo muchas ganas de salir al mundo laboral, hay algunas cosas
+          que extrañaré de mi paso por la universidad: los amigos y la TNE. Los
+          que estudiamos en San Joaquín conocemos lo agradable que es tener una
+          estación de metro literalmente en la entrada del campus. No obstante,
+          desde que empezó a disminuir la crisis pandémica el año pasado (2021),
+          me las di de deportista y comencé a moverme mucho en bicicleta. Todos
+          los días que tenía clases intentaba ir en bicicleta (11 km de ida y
+          otros 11 de vuelta), y creo que mejoré bastante mi estado físico.
+          Cuando llevaba más semanas pedaleando, ya lograba llegar más rápido
+          que si me fuese en metro.
+        </p>
+        <p>
+          Como va a subir el precio del pasaje de metro que tendré que pagar a
+          partir del próximo año, empieza a ser atractivo el evaluar reemplazar
+          el transporte público por el uso de la bicicleta. El principal
+          problema es que muchas veces no se puede dejar la <i>chancha</i> en el
+          lugar de destino de forma segura. Eso me ha hecho considerar
+          seriamente pagar la suscripción al servicio más grande de bicicletas
+          públicas que hay en Santiago: BikeSantiago (también conocido como
+          BikeItau). Este servicio funciona con la modalidad de cicloestaciones:
+          se retira una bicicleta en una estación y se devuelve en otra.
+        </p>
+        <img
+          src="img/bikesantiago_plans.jpg"
+          alt="BikeSantiago Plans"
+          class="w80 shadow"
+        />
+        <p>
+          Al momento que escribo esto, la suscripción anual a las bicicletas
+          naranjas cuesta algo así como $32.000, o sea poco más de $2.600 al
+          mes. ¡Literalmente tres pasajes de metro en hora punta al mes! Por el
+          precio, parece
+          <i>no-brainer</i>, pero con esta visualización quiero ver si realmente
+          vale la pena, comparando los niveles de servicio (es decir, cantidad
+          de bicicletas que puedo tomar en una ubicación, día y hora
+          determinada) en distintos lugares de la ciudad. Tal vez le sirva a
+          alguien que esté pensando en suscribirse.
+        </p>
+        <p>
+          También consideré Uber Bikes / Scooters, pero con una tarifa de $500
+          por solo desbloquear y luego $160 por minuto, basta que el viaje dure
+          15 minutos para que convenga más pagar una mensualidad de
+          BikeSantiago. Claro que las bicicletas de Uber son eléctricas, se
+          pueden tomar y dejar en cualquier lugar, pero aún la cobertura es
+          limitada y antes prefiero tomar una micro.
+        </p>
+        <div class="flex">
+          <div>
+            <p>
+              Acá hay un pantallazo de la
+              <a
+                href="https://play.google.com/store/apps/details?id=pbsc.cyclefinder.tembici&hl=es_CL&gl=US&pli=1"
+                >aplicación</a
+              >
+              de Bikesantiago centrado en el metro Pedro de Valdivia. Si bien
+              este lugar tiene buena oferta de transporte público
+              no-autopropulsado, Bikesantiago tiene la gracia que no cierra a
+              las 11pm (hay micros, lo sé, pero sigamos la onda). Puedes sacar
+              una bicicleta de una estación a cualquier hora del día, siempre
+              que haya disponibilidad...
+            </p>
+            <p>
+              Y es justamente la disponibilidad lo que me preocupa. La foto es
+              de las 8:30 pm de un día martes, y de las 17 estaciones que se ven
+              en la foto, solo 4 tienen al menos una bicicleta. Y ojo con las
+              que tienen una sola bici, puede que justo esa esté pinchada y
+              tendremos que caminar a la cicloestación siguiente.
+            </p>
+            <p>
+              Por lo anterior, aproximadamente en abril de 2022 comencé a
+              prestar más atención a la app, sobre todo para ver si existe
+              alguna forma de que pueda obtener (y almacenar) los datos de
+              disponibilidad de bicicletas por cicloestación, en todo momento
+              del día y de forma automática.
+            </p>
+            <p>
+              Varios posts de Medium más tarde, con un emulador de Android que
+              casi llena todo mi disco duro, y con un par de horas de programar
+              en Google Apps Script, logré un proceso automático que guarda en
+              Google Sheets todos los datos de disponibilidad de bicicletas,
+              para cada estación, cada minuto del día. Y lo dejé correr. 7
+              meses.
+            </p>
+            <p>
+              El <i>dataset</i> que recopilé tiene 238 cicloestaciones con sus
+              posiciones geográficas, y ~200 mil filas con la disponibilidad de
+              bicicletas en cada estación. Como guardar la disponibilidad de
+              cada estación una vez por minuto necesitaría casi 72 millones de
+              filas en 7 meses, una optimización obvia es guardar solo los
+              "deltas", es decir, registrar en qué momento una estación registró
+              un cambio, y cuál es la cantidad de bicicletas que quedaron en esa
+              estación en ese momento.
+            </p>
+          </div>
+          <img
+            src="img/bikesantiago_availability.jpg"
+            alt="BikeSantiago App Screenshot"
+            class="w40 shadow"
+          />
+        </div>
+        <h1>2. Abstracción de datos y tareas</h1>
+        <h1>3. Codificación visual y de interacción</h1>
+        <h1>4. Implementación algorítmica</h1>
+        La implementación se encuentra publicada en
+        <a href="https://bikesantiago.coloro.cl">
+          https://bikesantiago.coloro.cl</a
+        >.
+      </div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>
