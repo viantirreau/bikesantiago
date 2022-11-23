@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8" />
     <title>Bikesantiago service level</title>
     <script src="d3/d3.v7.min.js"></script>
     <script src="d3/d3-array.v3.min.js"></script>
@@ -10,305 +9,571 @@
     <script src="d3/d3-geo-projection.v4.min.js"></script>
     <script src="d3/d3-tile.v1.min.js"></script>
     <script src="d3/d3-hexbin.v0.2.min.js"></script>
-    <link type="image/png" sizes="16x16" rel="icon" href="media/favicon-16.png">
-    <link type="image/png" sizes="32x32" rel="icon" href="media/favicon-32.png">
-    <link type="image/png" sizes="96x96" rel="icon" href="media/favicon-96.png">
-    <link rel="stylesheet" href="css/inputs.css">
-    <link rel="stylesheet" href="css/main.css">
-</head>
+    <link
+      type="image/png"
+      sizes="16x16"
+      rel="icon"
+      href="media/favicon-16.png"
+    />
+    <link
+      type="image/png"
+      sizes="32x32"
+      rel="icon"
+      href="media/favicon-32.png"
+    />
+    <link
+      type="image/png"
+      sizes="96x96"
+      rel="icon"
+      href="media/favicon-96.png"
+    />
+    <link rel="stylesheet" href="css/inputs.css" />
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
 
-<body>
+  <body>
     <div class="selectors">
-        <!-- https://codepen.io/iamsaief/pen/jOEoJgE -->
-        <div class="day-select">
-            <div class="select-label">
-                <h3>Day of the week</h3>
-            </div>
-            <div class="select-box">
-                <div class="options-container" id="day-options-container">
-                    <div class="option day-option">
-                        <input type="radio" class="radio" id="day-0" name="day" value="0" />
-                        <label for="day-0">
-                            <h3>Monday</h3>
-                        </label>
-                    </div>
-                    <div class="option day-option">
-                        <input type="radio" class="radio" id="day-1" name="day" value="1" />
-                        <label for="day-1">
-                            <h3>Tuesday</h3>
-                        </label>
-                    </div>
-                    <div class="option day-option">
-                        <input type="radio" class="radio" id="day-2" name="day" value="2" />
-                        <label for="day-2">
-                            <h3>Wednesday</h3>
-                        </label>
-                    </div>
-                    <div class="option day-option">
-                        <input type="radio" class="radio" id="day-3" name="day" value="3" />
-                        <label for="day-3">
-                            <h3>Thursday</h3>
-                        </label>
-                    </div>
-                    <div class="option day-option">
-                        <input type="radio" class="radio" id="day-4" name="day" value="4" />
-                        <label for="day-4">
-                            <h3>Friday</h3>
-                        </label>
-                    </div>
-                    <div class="option day-option">
-                        <input type="radio" class="radio" id="day-5" name="day" value="5" />
-                        <label for="day-5">
-                            <h3>Saturday</h3>
-                        </label>
-                    </div>
-                    <div class="option day-option">
-                        <input type="radio" class="radio" id="day-6" name="day" value="6" />
-                        <label for="day-6">
-                            <h3>Sunday</h3>
-                        </label>
-                    </div>
-                </div>
-                <div id="selected-day" class="selected">
-                    <h3>Monday</h3>
-                </div>
-            </div>
+      <!-- https://codepen.io/iamsaief/pen/jOEoJgE -->
+      <div class="day-select">
+        <div class="select-label">
+          <h3>Day of the week</h3>
         </div>
-        <div class="hour-select">
-            <div class="select-label">
-                <h3>Hour of day</h3>
+        <div class="select-box">
+          <div class="options-container" id="day-options-container">
+            <div class="option day-option">
+              <input
+                type="radio"
+                class="radio"
+                id="day-0"
+                name="day"
+                value="0"
+              />
+              <label for="day-0">
+                <h3>Monday</h3>
+              </label>
             </div>
-            <div class="select-box">
-                <div class="options-container" id="hour-options-container">
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-0" name="hour" value="0" />
-                        <label for="hour-0">
-                            <h3>00 AM - 01 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-1" name="hour" value="1" />
-                        <label for="hour-1">
-                            <h3>01 AM - 02 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-2" name="hour" value="2" />
-                        <label for="hour-2">
-                            <h3>02 AM - 03 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-3" name="hour" value="3" />
-                        <label for="hour-3">
-                            <h3>03 AM - 04 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-4" name="hour" value="4" />
-                        <label for="hour-4">
-                            <h3>04 AM - 05 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-5" name="hour" value="5" />
-                        <label for="hour-5">
-                            <h3>05 AM - 06 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-6" name="hour" value="6" />
-                        <label for="hour-6">
-                            <h3>06 AM - 07 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-7" name="hour" value="7" />
-                        <label for="hour-7">
-                            <h3>07 AM - 08 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-8" name="hour" value="8" />
-                        <label for="hour-8">
-                            <h3>08 AM - 09 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-9" name="hour" value="9" />
-                        <label for="hour-9">
-                            <h3>09 AM - 10 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-10" name="hour" value="10" />
-                        <label for="hour-10">
-                            <h3>10 AM - 11 AM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-11" name="hour" value="11" />
-                        <label for="hour-11">
-                            <h3>11 AM - 12 PM</h3>
-                        </label>
-                    </div>
-                    <hr>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-12" name="hour" value="12" />
-                        <label for="hour-12">
-                            <h3>12 PM - 01 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-13" name="hour" value="13" />
-                        <label for="hour-13">
-                            <h3>01 PM - 02 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-14" name="hour" value="14" />
-                        <label for="hour-14">
-                            <h3>02 PM - 03 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-15" name="hour" value="15" />
-                        <label for="hour-15">
-                            <h3>03 PM - 04 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-16" name="hour" value="16" />
-                        <label for="hour-16">
-                            <h3>04 PM - 05 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-17" name="hour" value="17" />
-                        <label for="hour-17">
-                            <h3>05 PM - 06 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-18" name="hour" value="18" />
-                        <label for="hour-18">
-                            <h3>06 PM - 07 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-19" name="hour" value="19" />
-                        <label for="hour-19">
-                            <h3>07 PM - 08 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-20" name="hour" value="20" />
-                        <label for="hour-20">
-                            <h3>08 PM - 09 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-21" name="hour" value="21" />
-                        <label for="hour-21">
-                            <h3>09 PM - 10 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-22" name="hour" value="22" />
-                        <label for="hour-22">
-                            <h3>10 PM - 11 PM</h3>
-                        </label>
-                    </div>
-                    <div class="option hour-option">
-                        <input type="radio" class="radio" id="hour-23" name="hour" value="23" />
-                        <label for="hour-23">
-                            <h3>11 PM - 12 AM</h3>
-                        </label>
-                    </div>
-                </div>
-                <div id="selected-hour" class="selected">
-                    <h3>00 AM - 01 AM</h3>
-                </div>
+            <div class="option day-option">
+              <input
+                type="radio"
+                class="radio"
+                id="day-1"
+                name="day"
+                value="1"
+              />
+              <label for="day-1">
+                <h3>Tuesday</h3>
+              </label>
             </div>
+            <div class="option day-option">
+              <input
+                type="radio"
+                class="radio"
+                id="day-2"
+                name="day"
+                value="2"
+              />
+              <label for="day-2">
+                <h3>Wednesday</h3>
+              </label>
+            </div>
+            <div class="option day-option">
+              <input
+                type="radio"
+                class="radio"
+                id="day-3"
+                name="day"
+                value="3"
+              />
+              <label for="day-3">
+                <h3>Thursday</h3>
+              </label>
+            </div>
+            <div class="option day-option">
+              <input
+                type="radio"
+                class="radio"
+                id="day-4"
+                name="day"
+                value="4"
+              />
+              <label for="day-4">
+                <h3>Friday</h3>
+              </label>
+            </div>
+            <div class="option day-option">
+              <input
+                type="radio"
+                class="radio"
+                id="day-5"
+                name="day"
+                value="5"
+              />
+              <label for="day-5">
+                <h3>Saturday</h3>
+              </label>
+            </div>
+            <div class="option day-option">
+              <input
+                type="radio"
+                class="radio"
+                id="day-6"
+                name="day"
+                value="6"
+              />
+              <label for="day-6">
+                <h3>Sunday</h3>
+              </label>
+            </div>
+          </div>
+          <div id="selected-day" class="selected">
+            <h3>Monday</h3>
+          </div>
         </div>
-        <div class="availability-select">
-            <div class="select-label">
-                <h3>Bike availability</h3>
+      </div>
+      <div class="hour-select">
+        <div class="select-label">
+          <h3>Hour of day</h3>
+        </div>
+        <div class="select-box">
+          <div class="options-container" id="hour-options-container">
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-0"
+                name="hour"
+                value="0"
+              />
+              <label for="hour-0">
+                <h3>00 AM - 01 AM</h3>
+              </label>
             </div>
-            <div class="select-box">
-                <div class="options-container" id="availability-options-container">
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-1" name="availability" value="1" />
-                        <label for="availability-1">
-                            <h3>At least 1 bike</h3>
-                        </label>
-                    </div>
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-2" name="availability" value="2" />
-                        <label for="availability-2">
-                            <h3>At least 2 bikes</h3>
-                        </label>
-                    </div>
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-3" name="availability" value="3" />
-                        <label for="availability-3">
-                            <h3>At least 3 bikes</h3>
-                        </label>
-                    </div>
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-4" name="availability" value="4" />
-                        <label for="availability-4">
-                            <h3>At least 4 bikes</h3>
-                        </label>
-                    </div>
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-5" name="availability" value="5" />
-                        <label for="availability-5">
-                            <h3>At least 5 bikes</h3>
-                        </label>
-                    </div>
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-6" name="availability" value="6" />
-                        <label for="availability-6">
-                            <h3>At least 6 bikes</h3>
-                        </label>
-                    </div>
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-7" name="availability" value="7" />
-                        <label for="availability-7">
-                            <h3>At least 7 bikes</h3>
-                        </label>
-                    </div>
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-8" name="availability" value="8" />
-                        <label for="availability-8">
-                            <h3>At least 8 bikes</h3>
-                        </label>
-                    </div>
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-9" name="availability" value="9" />
-                        <label for="availability-9">
-                            <h3>At least 9 bikes</h3>
-                        </label>
-                    </div>
-                    <div class="option availability-option">
-                        <input type="radio" class="radio" id="availability-10" name="availability" value="10" />
-                        <label for="availability-10">
-                            <h3>At least 10 bikes</h3>
-                        </label>
-                    </div>
-                </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-1"
+                name="hour"
+                value="1"
+              />
+              <label for="hour-1">
+                <h3>01 AM - 02 AM</h3>
+              </label>
             </div>
-            <div id="selected-availability" class="selected">
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-2"
+                name="hour"
+                value="2"
+              />
+              <label for="hour-2">
+                <h3>02 AM - 03 AM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-3"
+                name="hour"
+                value="3"
+              />
+              <label for="hour-3">
+                <h3>03 AM - 04 AM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-4"
+                name="hour"
+                value="4"
+              />
+              <label for="hour-4">
+                <h3>04 AM - 05 AM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-5"
+                name="hour"
+                value="5"
+              />
+              <label for="hour-5">
+                <h3>05 AM - 06 AM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-6"
+                name="hour"
+                value="6"
+              />
+              <label for="hour-6">
+                <h3>06 AM - 07 AM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-7"
+                name="hour"
+                value="7"
+              />
+              <label for="hour-7">
+                <h3>07 AM - 08 AM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-8"
+                name="hour"
+                value="8"
+              />
+              <label for="hour-8">
+                <h3>08 AM - 09 AM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-9"
+                name="hour"
+                value="9"
+              />
+              <label for="hour-9">
+                <h3>09 AM - 10 AM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-10"
+                name="hour"
+                value="10"
+              />
+              <label for="hour-10">
+                <h3>10 AM - 11 AM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-11"
+                name="hour"
+                value="11"
+              />
+              <label for="hour-11">
+                <h3>11 AM - 12 PM</h3>
+              </label>
+            </div>
+            <hr />
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-12"
+                name="hour"
+                value="12"
+              />
+              <label for="hour-12">
+                <h3>12 PM - 01 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-13"
+                name="hour"
+                value="13"
+              />
+              <label for="hour-13">
+                <h3>01 PM - 02 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-14"
+                name="hour"
+                value="14"
+              />
+              <label for="hour-14">
+                <h3>02 PM - 03 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-15"
+                name="hour"
+                value="15"
+              />
+              <label for="hour-15">
+                <h3>03 PM - 04 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-16"
+                name="hour"
+                value="16"
+              />
+              <label for="hour-16">
+                <h3>04 PM - 05 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-17"
+                name="hour"
+                value="17"
+              />
+              <label for="hour-17">
+                <h3>05 PM - 06 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-18"
+                name="hour"
+                value="18"
+              />
+              <label for="hour-18">
+                <h3>06 PM - 07 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-19"
+                name="hour"
+                value="19"
+              />
+              <label for="hour-19">
+                <h3>07 PM - 08 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-20"
+                name="hour"
+                value="20"
+              />
+              <label for="hour-20">
+                <h3>08 PM - 09 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-21"
+                name="hour"
+                value="21"
+              />
+              <label for="hour-21">
+                <h3>09 PM - 10 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-22"
+                name="hour"
+                value="22"
+              />
+              <label for="hour-22">
+                <h3>10 PM - 11 PM</h3>
+              </label>
+            </div>
+            <div class="option hour-option">
+              <input
+                type="radio"
+                class="radio"
+                id="hour-23"
+                name="hour"
+                value="23"
+              />
+              <label for="hour-23">
+                <h3>11 PM - 12 AM</h3>
+              </label>
+            </div>
+          </div>
+          <div id="selected-hour" class="selected">
+            <h3>00 AM - 01 AM</h3>
+          </div>
+        </div>
+      </div>
+      <div class="availability-select">
+        <div class="select-label">
+          <h3>Bike availability</h3>
+        </div>
+        <div class="select-box">
+          <div class="options-container" id="availability-options-container">
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-1"
+                name="availability"
+                value="1"
+              />
+              <label for="availability-1">
                 <h3>At least 1 bike</h3>
+              </label>
             </div>
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-2"
+                name="availability"
+                value="2"
+              />
+              <label for="availability-2">
+                <h3>At least 2 bikes</h3>
+              </label>
+            </div>
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-3"
+                name="availability"
+                value="3"
+              />
+              <label for="availability-3">
+                <h3>At least 3 bikes</h3>
+              </label>
+            </div>
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-4"
+                name="availability"
+                value="4"
+              />
+              <label for="availability-4">
+                <h3>At least 4 bikes</h3>
+              </label>
+            </div>
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-5"
+                name="availability"
+                value="5"
+              />
+              <label for="availability-5">
+                <h3>At least 5 bikes</h3>
+              </label>
+            </div>
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-6"
+                name="availability"
+                value="6"
+              />
+              <label for="availability-6">
+                <h3>At least 6 bikes</h3>
+              </label>
+            </div>
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-7"
+                name="availability"
+                value="7"
+              />
+              <label for="availability-7">
+                <h3>At least 7 bikes</h3>
+              </label>
+            </div>
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-8"
+                name="availability"
+                value="8"
+              />
+              <label for="availability-8">
+                <h3>At least 8 bikes</h3>
+              </label>
+            </div>
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-9"
+                name="availability"
+                value="9"
+              />
+              <label for="availability-9">
+                <h3>At least 9 bikes</h3>
+              </label>
+            </div>
+            <div class="option availability-option">
+              <input
+                type="radio"
+                class="radio"
+                id="availability-10"
+                name="availability"
+                value="10"
+              />
+              <label for="availability-10">
+                <h3>At least 10 bikes</h3>
+              </label>
+            </div>
+          </div>
         </div>
+        <div id="selected-availability" class="selected">
+          <h3>At least 1 bike</h3>
+        </div>
+      </div>
+      <div class="button-container">
+        <a href="help.html">
+          <img src="img/question.png" alt="question" id="question" />
+        </a>
+      </div>
     </div>
 
-
-    <script src='js/main.js' charset='utf-8'></script>
+    <script src="js/main.js" charset="utf-8"></script>
     <script src="js/inputs.js" charset="utf-8"></script>
-
-</body>
-
+    <div class="mt20">
+      <a href="report.html">Read the technical report here</a>
+    </div>
+  </body>
 </html>

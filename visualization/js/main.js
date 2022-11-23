@@ -22,45 +22,16 @@ const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 // Adapted from https://observablehq.com/@d3/zoomable-map-tiles
 // https://observablehq.com/@d3/zoomable-raster-vector
 
+/**
+ * Main map area at the left of the screen
+ * 
+ */
 const svg = d3
     .select("body")
     .append("svg")
     .attr("pointer-events", "all")
     .attr("width", WIDTH)
-    .attr("height", HEIGHT);
-
-const linePlot = d3.select("body")
-    .append("svg")
-    .attr("class", "line-plot")
-    .attr("width", PLOT_WIDTH)
-    .attr("height", PLOT_HEIGHT)
-
-const timeFormat = d3.utcFormat("%I %p")
-const linePlotXScale = d3.scaleUtc()
-    .domain([0, 24 * 3600 * 1000])
-    .range([30, PLOT_WIDTH - 20]);
-const linePlotYScale = d3.scaleLinear()
-    .domain([0, 1])
-    .range([PLOT_HEIGHT - 20, 30]);
-
-linePlot.append("g")
-    .attr("class", "x-axis")
-    .attr("transform", `translate(0, ${PLOT_HEIGHT - 20})`)
-    .call(d3.axisBottom().scale(linePlotXScale).tickFormat(timeFormat));
-
-linePlot.append("g")
-    .attr("class", "y-axis")
-    .attr("transform", `translate(30, 0)`)
-    .call(d3.axisLeft().scale(linePlotYScale));
-
-linePlot.append("path")
-    .attr("class", "line-plot-line")
-
-linePlot.append("text")
-    .attr("class", "line-plot-title")
-    .attr("x", PLOT_WIDTH / 2)
-    .attr("y", 15)
-    .attr("text-anchor", "middle");
+    .attr("height", HEIGHT)
 
 let image = svg.append("g")
     .attr("pointer-events", "none")
@@ -83,6 +54,49 @@ const hexbin = d3.hexbin()
     .y(d => d.y)
     .extent([[0, 0], [WIDTH, HEIGHT]])
     .radius(10);
+
+/**
+ *  Line plot at the right
+ * 
+ */
+const linePlot = d3.select("body")
+    .append("svg")
+    .attr("class", "line-plot")
+    .attr("width", PLOT_WIDTH)
+    .attr("height", PLOT_HEIGHT - 20)
+
+const timeFormat = d3.utcFormat("%I %p")
+const linePlotXScale = d3.scaleUtc()
+    .domain([0, 24 * 3600 * 1000])
+    .range([30, PLOT_WIDTH - 20]);
+const linePlotYScale = d3.scaleLinear()
+    .domain([0, 1])
+    .range([PLOT_HEIGHT - 40, 30]);
+
+linePlot.append("g")
+    .attr("class", "x-axis")
+    .attr("transform", `translate(0, ${PLOT_HEIGHT - 40})`)
+    .call(d3.axisBottom().scale(linePlotXScale).tickFormat(timeFormat));
+
+linePlot.append("g")
+    .attr("class", "y-axis")
+    .attr("transform", `translate(30, 0)`)
+    .call(d3.axisLeft().scale(linePlotYScale));
+
+linePlot.append("path")
+    .attr("class", "line-plot-line")
+
+linePlot.append("text")
+    .attr("class", "line-plot-title")
+    .attr("x", PLOT_WIDTH / 2)
+    .attr("y", 15)
+    .attr("text-anchor", "middle");
+
+
+/**
+ * Render functions
+ * 
+ */
 
 const renderStations = () => {
     svg
@@ -110,6 +124,37 @@ const renderHexbin = () => {
         .attr("fill-opacity", MAX_HEX_OPACITY);
 }
 
+const renderLineChartOverview = () => {
+    if (!AVAILABILITY_DATA) return;
+
+    const averageAvailabilityByHour = Object.values(AVAILABILITY_DATA[SELECTED_DAY]).map(hourlyData => {
+        // Filter only numbers
+        return d3.mean(Object.values(hourlyData[SELECTED_THRESHOLD]).filter(d => !isNaN(d)));
+    });
+
+    drawLineFromData(averageAvailabilityByHour);
+    d3.select(".line-plot-title").text(`Average probability that any station has ${SELECTED_THRESHOLD}+ bikes`);
+};
+
+const drawLineFromData = (data) => {
+    d3.select(".line-plot-line")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+            .x((d, i) => linePlotXScale(i * 3600 * 1000))
+            .y(d => linePlotYScale(d))
+        );
+}
+
+
+
+/**
+ * Data functions
+ * 
+ */
+
 const processAvailability = (data) => {
     data.map(d => {
         AVAILABILITY_DATA[+d.day] = AVAILABILITY_DATA[+d.day] || {};
@@ -126,9 +171,6 @@ d3.csv("processed-data/station_bike_availability.csv").then(data => {
     processAvailability(data);
     renderLineChartOverview();
 });
-
-
-
 
 d3.csv("processed-data/meta.csv").then((data) => {
     STATION_DATA = data.map(d => ({
@@ -163,6 +205,11 @@ d3.csv("processed-data/meta.csv").then((data) => {
         .attr("stroke", "gray")
         .append("title");
 });
+
+/**
+ * Interaction functions
+ * 
+ */
 
 const reasonablyWalkableCircle = svg
     .append("circle")
@@ -241,33 +288,7 @@ svg.on("mousemove", (event) => {
         .attr("y", y - 3 - currentRadius / 6)
         .attr("opacity", 1)
         .attr("font-size", Math.min(13, 2 + currentRadius / 3.5));
-
-
 });
-
-const renderLineChartOverview = () => {
-    if (!AVAILABILITY_DATA) return;
-
-    const averageAvailabilityByHour = Object.values(AVAILABILITY_DATA[SELECTED_DAY]).map(hourlyData => {
-        // Filter only numbers
-        return d3.mean(Object.values(hourlyData[SELECTED_THRESHOLD]).filter(d => !isNaN(d)));
-    });
-
-    drawLineFromData(averageAvailabilityByHour);
-    d3.select(".line-plot-title").text(`Average probability that any station has ${SELECTED_THRESHOLD}+ bikes`);
-};
-
-const drawLineFromData = (data) => {
-    d3.select(".line-plot-line")
-        .datum(data)
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 1.5)
-        .attr("d", d3.line()
-            .x((d, i) => linePlotXScale(i * 3600 * 1000))
-            .y(d => linePlotYScale(d))
-        );
-}
 
 
 
@@ -312,7 +333,6 @@ const showHexagons = () => {
 }
 
 
-
 const zoom = d3.zoom()
     .scaleExtent([1 << 20, 1 << 23])
     .extent([[0, 0], [WIDTH, HEIGHT]])
@@ -323,9 +343,10 @@ const zoom = d3.zoom()
 
 svg
     .call(zoom)
-    // Centered on Santiago .translate(103380, -51420)
+    // Centered on Santiago
     .call(zoom.transform, d3.zoomIdentity
         .translate(WIDTH / 2, HEIGHT / 2)
-        .scale(-(1 << 20))
+        .scale(-(1 << 20)) // I frankly don't know how this works
+        // But is nice to have the map centered on well known coordinates
         .translate(...projection([-70.6, -33.43]))
         .scale(-1));

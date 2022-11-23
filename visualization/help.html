@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      type="image/png"
+      sizes="16x16"
+      rel="icon"
+      href="media/favicon-16.png"
+    />
+    <link
+      type="image/png"
+      sizes="32x32"
+      rel="icon"
+      href="media/favicon-32.png"
+    />
+    <link
+      type="image/png"
+      sizes="96x96"
+      rel="icon"
+      href="media/favicon-96.png"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <title>How to use the visualization</title>
+  </head>
+
+  <body>
+    <div class="container dflex">
+      <div class="left"></div>
+      <div class="half">
+        <h1>How to use the visualization</h1>
+        <p>
+          First of all, set the parameters for the day of week, hour of that day
+          and availability threshold. Then, watch the visualization get updated
+          with the results.
+        </p>
+        <img
+          src="img/how_to_1.png"
+          class="w80 shadow"
+          alt="How to use the visualization"
+        />
+        <p>
+          Try zooming in and out using the mouse wheel, and moving the map using
+          the mouse (click and drag). Whenever your mouse is over a group of
+          stations, the availability trends about that group will be displayed
+          in the right side of the screen. In this case, the line chart shows
+          the availability of the stations with the configured threshold, on the
+          day of week that was selected, but the trend line is shown for the
+          whole day.
+        </p>
+        <img
+          src="img/how_to_2.jpg"
+          class="w80 shadow"
+          alt="How to use the visualization"
+        />
+        <h1>How are the probabilities calculated</h1>
+        <p>
+          The availability probabilities are calculated using the following
+          steps:
+        </p>
+        <ol>
+          <li>
+            Find all the stations that lie within the cursor's radius of
+            influence, or any hexagon for that matter.
+          </li>
+          <li>
+            For each station inside the area, find the bike availability for the
+            selected day of week and every hour of day.
+          </li>
+          <li>
+            If the availability for any station within the area is greater than
+            the threshold, then the whole area will be considered as available
+            in that time slot (hour). If the availability for
+            <i>all</i> stations within the area is less than the threshold, then
+            the whole area will be considered as unavailable in that time slot.
+          </li>
+          <li>
+            Gather the aggregated data for all time slots in the selected day
+            from the previous step and report only the probability of the hour
+            selected in the parameters at the top of the screen. This
+            probability of availability gets drawn as a text label inside the
+            circle, but is not shown in the hexagons to prevent cluttering. As
+            an example, in the following picture, only two stations are
+            considered for a Tuesday between 08 PM and 09 PM. The threshold is
+            set to 3, and the resulting probabilitiy is 91%. This can be
+            interpreted as the chances of finding 3 or more bikes available at
+            any of the two stations, on a normal Tuesday, between 08 PM and 09
+            PM.
+          </li>
+          <img src="img/how_to_3.jpg" class="w35 shadow mlra" />
+          <li>
+            The probability of availability inside the active region (circle) is
+            plotted in the line chart, and the trend line for each hour of the
+            day is shown at the right side of the screen.
+          </li>
+          <img src="img/how_to_4.jpg" class="w35 shadow mlra" />
+        </ol>
+        <p>
+          If no stations are found within the area, then the line chart will
+          display the probability of availability for the whole city, averaged
+          between all the stations for each hour of the day.
+        </p>
+        <hr />
+        <p class="tac">
+          <a href="index.html">Back to visualization</a>
+        </p>
+        <hr />
+      </div>
+
+      <div class="right"></div>
+    </div>
+  </body>
+</html>

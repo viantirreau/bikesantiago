@@ -127,10 +127,22 @@
 .selectors {
   display: grid;
   grid-auto-flow: column dense;
-  grid-auto-columns: 250px;
+  grid-auto-columns: 241px;
   margin: 6px;
 }
 
 .select-label {
   margin: 0 0 6px 8px;
+}
+
+#question {
+  height: 70px;
+  margin-top: 10px;
+  -webkit-filter: drop-shadow(5px 5px 5px #22222222);
+  filter: drop-shadow(5px 5px 5px #22222222);
+}
+
+#question:hover {
+  -webkit-filter: drop-shadow(6px 6px 6px #22222222) brightness(0.98);
+  filter: drop-shadow(6px 6px 6px #22222222) brightness(0.98);
 }

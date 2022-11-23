@@ -143,3 +143,16 @@ ol {
   font-weight: 500;
   margin-top: 20px;
 }
+
+.mlra {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tac {
+  text-align: center;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
